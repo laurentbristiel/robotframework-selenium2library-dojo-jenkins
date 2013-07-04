@@ -1,0 +1,48 @@
+This test assumes Jenkins is running on localhost 
+and waiting for connexion on port 8080
+
+*** Settings ***
+Library  Selenium2Library
+
+*** Variables ***
+${SERVER}     localhost:8080
+# we choose Firefox but it can also work with phantomjs, quite handy as it is headless
+${BROWSER}    phantomjs
+${DELAY}      0
+${TIMEOUT}    15  
+${HOME_URL}   http://${SERVER}
+
+*** Test Cases ***
+New Job in jenkins
+    [setup]  Set Selenium Speed and Timeout
+    Open Browser  ${HOME_URL}  ${BROWSER}
+    Maximize Browser Window
+    
+    # we click on "new job" via xpath because we did not find a better way 
+    Wait Until Page Contains Element  xpath=//*[@id="tasks"]/div[1]/a[2]
+    Click Element  xpath=//*[@id="tasks"]/div[1]/a[2]
+
+    # we fill the informations for the new job and save
+    Wait Until Page Contains Element  id=name
+    Input Text  id=name  MonJob
+    Element Should Be Disabled  id=ok-button
+    Wait Until Page Contains Element  name=mode
+    Select Radio Button  mode  hudson.model.FreeStyleProject
+    Element Should Be enabled  id=ok-button
+    Click Button  id=ok-button
+    wait until page contains element  id=yui-gen30-button
+    click button  id=yui-gen30-button
+    
+    # and then we delete the job to be able to launch the test again
+    wait until page contains element  xpath=//*[@id="tasks"]/div[6]/a[2]
+    click element  xpath=//*[@id="tasks"]/div[6]/a[2]
+    
+    # there is an OS pop-up that we confirm
+    ${message} =  Confirm Action
+    log  ${message}
+    [Teardown]  Close Browser    
+    
+*** Keywords ***
+Set Selenium Speed and Timeout    
+    Set Selenium Speed    ${DELAY}
+    Set Selenium Timeout  ${TIMEOUT}
