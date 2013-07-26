@@ -7,7 +7,7 @@ Library  Selenium2Library
 *** Variables ***
 ${SERVER}     localhost:8080
 # we choose Firefox but it can also work with phantomjs, quite handy as it is headless
-${BROWSER}    phantomjs
+${BROWSER}    firefox
 ${DELAY}      0
 ${TIMEOUT}    15  
 ${HOME_URL}   http://${SERVER}
@@ -30,6 +30,21 @@ New Job in jenkins
     Select Radio Button  mode  hudson.model.FreeStyleProject
     Element Should Be enabled  id=ok-button
     Click Button  id=ok-button
+    
+    wait until page contains element  xpath=//*[@id="yui-gen3-button"]
+    click button  xpath=//*[@id="yui-gen3-button"]
+    click element  xpath=//*[@id="yui-gen34"]/a
+    
+    sleep  5 
+    
+    
+    #wait until page contains element   id=cb27
+    #select checkbox  id=cb27
+    
+    #wait until page contains element  id="yui-gen3" 
+    ##click button  id="yui-gen3-button" 
+    
+    # click on "save"
     wait until page contains element  id=yui-gen30-button
     click button  id=yui-gen30-button
     
@@ -46,3 +61,5 @@ New Job in jenkins
 Set Selenium Speed and Timeout    
     Set Selenium Speed    ${DELAY}
     Set Selenium Timeout  ${TIMEOUT}
+
+
