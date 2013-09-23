@@ -35,15 +35,6 @@ New Job in jenkins
     click button  xpath=//*[@id="yui-gen3-button"]
     click element  xpath=//*[@id="yui-gen34"]/a
     
-    sleep  5 
-    
-    
-    #wait until page contains element   id=cb27
-    #select checkbox  id=cb27
-    
-    #wait until page contains element  id="yui-gen3" 
-    ##click button  id="yui-gen3-button" 
-    
     # click on "save"
     wait until page contains element  id=yui-gen30-button
     click button  id=yui-gen30-button
